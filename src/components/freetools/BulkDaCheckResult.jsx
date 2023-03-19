@@ -4,95 +4,135 @@ import { DownOrCopy } from '@/components/common/DownOrCopy'
 import { ToolExcelInput } from '@/components/common/ToolExcelInput'
 import { ToolExcelMenu } from '@/components/common/ToolExcelMenu'
 import { ToolDa } from '@/components/pages/ToolDa'
+import { searchAtom } from '@/state'
+import { useAtom } from 'jotai'
 
 const whoisdata = []
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const IsResults = () => {
-  <div className="md:mb-12">
-  <div className="mt-8 flex flex-col ">
-    <div>
-      <DownOrCopy />
-      <div className="py-2 align-middle min-w-full sm:flex space-x-2 overflow-hidden sm:overflow-visible">
-        <div className="shadow sm:mx-auto w-screen 2xl:max-w-screen-2xl">
-          <div className="sticky top-0 z-10 min-w-full border-collapse text-center flex bg-gray-500 rounded-t-lg">
-            <ToolExcelInput className=" w-2-50 w-1-10 py-3.5 text-oksm" />
-            <ToolExcelMenu className="w-2-50 hidden md:block py-3.5 text-oksm" title="Id"/>
-            <ToolExcelMenu className="w-7-50 w-3-10 py-3.5 text-oksm" title="Domain"/>
-            <ToolExcelMenu className="w-8-50 hidden md:block py-3.5 text-oksm" title="Registrar"/>
-            <ToolExcelMenu className="w-4-50 hidden md:block py-3.5 text-oksm" title="Time-Up"/>
-            <ToolExcelMenu className="w-4-50 w-2-10 py-3.5 text-oksm" title="Time-Reg"/>
-            <ToolExcelMenu className="w-4-50 w-2-10 py-3.5 text-oksm" title="Time-End"/>
-            <ToolExcelMenu className="w-7-50 hidden md:block py-3.5 text-oksm" title="Status"/>
-            <ToolExcelMenu className="w-8-50 hidden md:block py-3.5 text-oksm" title="NameServer"/>
-            <ToolExcelMenu className="w-2-50 w-1-10 py-3.5 text-oksm" title="Del"/>
-            <ToolExcelMenu className="w-2-50 w-1-10 py-3.5 text-oksm" title="Park"/>
-          </div>
-          <div className="bg-white">
-              {whoisdata.map((person,personIdx) => (
-                <div key={person.id} className="min-w-full border-collapse text-center truncate flex even:bg-green-50 !bg-opacity-40 hover:bg-gray-200">
-                  <div className="whitespace-nowrap py-3 text-oksm  text-gray-500 border border-gray-200 w-2-50 w-1-10">
-                    <input
-                      id={`${person.id}-${personIdx}`}
-                      name={`${person.id}[]`}
-                      type='checkbox'
-                      className='text-mygreen-500 h-4 w-4 rounded border-gray-300 focus:outline-none focus:ring-0 focus:ring-white focus:ring-offset-0 focus:ring-offset-white'
-                    />
-                  </div>
-                  <div className="whitespace-nowrap py-3 text-oksm font-medium text-gray-500 border border-gray-200 w-2-50 hidden md:block">
-                    {person.id}
-                  </div>
-                  <div className="text-blue-500 whitespace-nowrap py-3 text-oksm font-medium border border-gray-200 w-7-50 truncate text-left sm:pl-4 w-3-10">
-                    <a href={"/domains/"+person.name} className="hover:underline" title={person.name} target="_blank">
-                      {person.name}
-                    </a>
-                  </div>
-
-                  <div className="whitespace-nowrap py-3 text-oksm text-gray-500 border border-gray-200 w-8-50 truncate text-left pl-4 hidden md:block" title={person.registrar}>{person.registrar}</div>
-                  <div className="whitespace-nowrap py-3 text-oksm text-gray-500 border border-gray-200 w-4-50 hidden md:block truncate">{person.timeup}</div>
-                  <div className="whitespace-nowrap py-3 text-oksm text-gray-500 border border-gray-200 w-4-50 w-2-10 truncate">{person.timereg}</div>
-                  <div className="whitespace-nowrap py-3 text-oksm text-gray-500 border border-gray-200 w-4-50 w-2-10 truncate">{person.timeend}</div>
-                  <div className="whitespace-nowrap py-3 text-oksm text-gray-500 border border-gray-200 w-7-50 truncate pl-4 hidden md:block" title={person.status}>{person.status}</div>
-                  <div className="whitespace-nowrap py-3 text-oksm text-gray-500 border border-gray-200 w-8-50 truncate text-left pl-4 hidden md:block" title={person.nameserver}>{person.nameserver}</div>
-                  <div className="whitespace-nowrap py-3 text-oksm text-gray-500 border border-gray-200 w-2-50 w-1-10 flex items-center justify-center uppercase">
-                  <span className={classNames(
-                      person.delorredemp ? 'rounded-full h-5 w-5 bg-orange-100 text-orange-700 font-bold hover:bg-orange-200' : 'rounded-full bg-green-50 h-5 w-5 text-green-700 font-bold hover:bg-green-200'
-                    )}> 
+const IsResults = ({ datas }) => {
+  return (
+    <div className="md:mb-12">
+      <div className="mt-8 flex flex-col ">
+        <div>
+          <DownOrCopy />
+          <div className="min-w-full space-x-2 overflow-hidden py-2 align-middle sm:flex sm:overflow-visible">
+            <div className="w-screen shadow sm:mx-auto 2xl:max-w-screen-2xl">
+              <div className="sticky top-0 z-10 flex min-w-full border-collapse rounded-t-lg bg-gray-500 text-center">
+                <ToolExcelInput className=" w-2-50 w-1-10 text-oksm py-3.5" />
+                <ToolExcelMenu
+                  className="w-2-50 text-oksm hidden py-3.5 md:block"
+                  title="Id"
+                />
+                <ToolExcelMenu
+                  className="w-7-50 w-3-10 text-oksm py-3.5"
+                  title="Domain"
+                />
+                <ToolExcelMenu
+                  className="w-8-50 text-oksm hidden py-3.5 md:block"
+                  title="Registrar"
+                />
+                <ToolExcelMenu
+                  className="w-4-50 text-oksm hidden py-3.5 md:block"
+                  title="Time-Up"
+                />
+                <ToolExcelMenu
+                  className="w-4-50 w-2-10 text-oksm py-3.5"
+                  title="Time-Reg"
+                />
+                <ToolExcelMenu
+                  className="w-4-50 w-2-10 text-oksm py-3.5"
+                  title="Time-End"
+                />
+                <ToolExcelMenu
+                  className="w-7-50 text-oksm hidden py-3.5 md:block"
+                  title="Status"
+                />
+                <ToolExcelMenu
+                  className="w-8-50 text-oksm hidden py-3.5 md:block"
+                  title="NameServer"
+                />
+                <ToolExcelMenu
+                  className="w-2-50 w-1-10 text-oksm py-3.5"
+                  title="Del"
+                />
+                <ToolExcelMenu
+                  className="w-2-50 w-1-10 text-oksm py-3.5"
+                  title="Park"
+                />
+              </div>
+              <div className="bg-white">
+                {datas.map((person, personIdx) => (
+                  <div
+                    key={person.id}
+                    className="flex min-w-full border-collapse truncate !bg-opacity-40 text-center even:bg-green-50 hover:bg-gray-200"
+                  >
+                    <div className="text-oksm w-2-50 w-1-10  whitespace-nowrap border border-gray-200 py-3  text-gray-500">
+                      <input
+                        id={`${person.id}-${personIdx}`}
+                        name={`${person.id}[]`}
+                        type="checkbox"
+                        className="text-mygreen-500 h-4 w-4 rounded border-gray-300 focus:outline-none focus:ring-0 focus:ring-white focus:ring-offset-0 focus:ring-offset-white"
+                      />
+                    </div>
+                    <div className="text-oksm w-2-50 hidden whitespace-nowrap border border-gray-200 py-3 font-medium text-gray-500 md:block">
+                      {person.id}
+                    </div>
+                    <div className="text-oksm w-7-50 w-3-10 truncate whitespace-nowrap border border-gray-200 py-3 text-left font-medium text-blue-500 sm:pl-4">
+                      {person.domain}
+                    </div>
+                    <div className="text-oksm w-8-50 w-3-10 truncate whitespace-nowrap border border-gray-200 py-3 text-left font-medium text-blue-500 sm:pl-4">
+                      {person.registrar}
+                    </div>
+                    <div
+                      className={classNames(
+                        person.da > 35
+                          ? 'text-oksm w-4-50 w-1-10 truncate whitespace-nowrap border border-gray-200 py-3 font-semibold text-green-700'
+                          : 'text-oksm w-4-50 w-1-10 truncate whitespace-nowrap border border-gray-200 py-3 text-gray-500'
+                      )}
+                    >
+                      {person.uptime}
+                    </div>
+                    <div className="text-oksm w-4-50 w-2-10 truncate whitespace-nowrap border border-gray-200 py-3 text-gray-500">
+                      {person.regtime}
+                    </div>
+                    <div className="text-oksm w-4-50 w-2-10 truncate whitespace-nowrap border border-gray-200 py-3 text-gray-500">
+                      {person.endtime}
+                    </div>
+                    <div className="text-oksm w-7-50 w-1-10 truncate whitespace-nowrap border border-gray-200 py-3 text-gray-500">
+                      {person.status}
+                    </div>
+                    <div className="text-oksm w-8-50 hidden truncate whitespace-nowrap border border-gray-200 py-3 text-gray-500 md:block">
+                      {person.nameserver}
+                    </div>
+                    <div className="text-oksm w-2-50 hidden whitespace-nowrap border-t border-b border-l border-gray-200 py-3 text-gray-500 md:block">
                       {person.delorredemp}
-                    </span>
-                  </div>
-                  <div className="whitespace-nowrap text-oksm text-gray-500 border-t border-b border-l border-gray-200 w-2-50 w-1-10 flex items-center justify-center uppercase">
-                    <span className={classNames(
-                      person.parkorbuy ? 'rounded-full h-5 w-5 bg-orange-100 text-orange-700 font-bold hover:bg-orange-200' : 'rounded-full bg-green-50 h-5 w-5 text-green-700 font-bold hover:bg-green-200'
-                    )}>
+                    </div>
+                    <div className="text-oksm w-2-50 hidden whitespace-nowrap border-t border-b border-l border-gray-200 py-3 text-gray-500 md:block">
                       {person.parkorbuy}
-                    </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-
+  )
 }
 
-
 export function BulkDaCheckResult() {
+  const [searchState] = useAtom(searchAtom)
   return (
     <>
-
-      {whoisdata.length ? (
-        <IsResults />
+      {searchState.searchResult ? (
+        <IsResults datas={searchState.searchResult} />
       ) : (
         <ToolDa />
       )}
-
     </>
   )
 }

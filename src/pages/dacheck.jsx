@@ -1,6 +1,5 @@
 import Head from 'next/head'
 
-
 import { BannerTop } from '@/components/BannerTop'
 import { NavSearch } from '@/components/NavSearch'
 import { Footer } from '@/components/Footer'
@@ -25,12 +24,9 @@ export default function DaCheck() {
       <Header />
       <NavSearch />
       <main className="">
-
-      {single
+        {single
           ? [<DaChecks setSingle={setSingle} />, <DaChecksResult />]
-          : [<BulkDaCheck setSingle={setSingle} />, <BulkDaCheckResult />]
-        }
-
+          : [<BulkDaCheck setSingle={setSingle} />, <BulkDaCheckResult />]}
       </main>
       <Footer />
     </>

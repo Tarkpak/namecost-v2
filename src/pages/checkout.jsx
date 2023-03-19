@@ -1,6 +1,5 @@
 import Head from 'next/head'
 
-
 import { BannerTop } from '@/components/BannerTop'
 import { NavTitle } from '@/components/NavTitle'
 import { Footer } from '@/components/Footer'
@@ -12,16 +11,15 @@ export default function Checkout() {
     <>
       <Head>
         <title>Checkout - NameCost.com</title>
-        <meta
-          name="description"
-          content=""
-        />
+        <meta name="description" content="" />
       </Head>
       <BannerTop />
       <Header />
-      <NavTitle><span className="hidden sm:inline">The Best </span>Domain Check<span className="hidden sm:inline"> Tool</span></NavTitle> 
+      <NavTitle>
+        <span className="hidden sm:inline">The Best </span>Domain Check
+        <span className="hidden sm:inline"> Tool</span>
+      </NavTitle>
       <main>
-
         <Checkouts />
       </main>
       <Footer />

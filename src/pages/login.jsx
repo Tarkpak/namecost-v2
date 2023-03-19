@@ -5,8 +5,13 @@ import { AuthLayout } from '@/components/common/AuthLayout'
 import { Button } from '@/components/common/Button'
 import { TextField } from '@/components/common/Fields'
 import { Logo } from '@/components/Logo'
+import { useState } from 'react'
+import http from '@/utils/axios'
+import { useRouter } from 'next/router'
 
 export default function Login() {
+  const router = useRouter()
+  const [form, setForm] = useState({ username: '', password: '' })
   return (
     <>
       <Head>
@@ -33,7 +38,22 @@ export default function Login() {
             </p>
           </div>
         </div>
-        <form action="http://140.82.54.112:8080/user/login" method="post" className="mt-10 grid grid-cols-1 gap-y-4">
+        <form
+          method="post"
+          className="mt-10 grid grid-cols-1 gap-y-4"
+          onSubmit={(e) => {
+            e.preventDefault()
+            http
+              .post('/users/login', form)
+              .then((token) => {
+                token && localStorage.setItem('token', token)
+                router.push('/')
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+          }}
+        >
           <TextField
             label="Account"
             id="text"
@@ -41,6 +61,8 @@ export default function Login() {
             type="text"
             autoComplete="account-name"
             required
+            value={form.username}
+            onChange={(e) => setForm({ ...form, username: e.target.value })}
           />
           <TextField
             label="Password"
@@ -49,14 +71,19 @@ export default function Login() {
             type="password"
             autoComplete="current-password"
             required
+            value={form.password}
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
           />
-              <div className="flex items-center justify-between">
-                <div className="text-sm">
-                  <a href="/resetpassword" className="font-medium text-indigo-600 hover:text-indigo-500">
-                    Forgot your password?
-                  </a>
-                </div>
-              </div>
+          <div className="flex items-center justify-between">
+            <div className="text-sm">
+              <a
+                href="/resetpassword"
+                className="font-medium text-indigo-600 hover:text-indigo-500"
+              >
+                Forgot your password?
+              </a>
+            </div>
+          </div>
           <div>
             <Button
               type="submit"

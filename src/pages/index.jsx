@@ -21,7 +21,6 @@ export default function Home() {
       <Header />
       <NavSearch />
       <main className="bg-mymain">
-
         <Homes />
       </main>
       <Footer />
