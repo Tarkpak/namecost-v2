@@ -1,0 +1,40 @@
+目录结构：
+
+account		客户后台
+	-account	
+	-billing
+	-dashboard
+	-post
+	-referral
+	-support
+
+common		通用组件
+	-account 客户后台 通用页面
+	-datas 	data菜单 通用页面
+	-freetools tools菜单通用页面
+	-help	help菜单通用页面
+	-monitor monitor菜单通用哦页面
+
+datas		datas菜单页面
+
+freetools		Free Tools 菜单页面
+
+help		Help 菜单页面
+
+monitor		Monitor菜单页面
+
+pages		固定长内容页面
+
+shopping		购物菜单页面		
+
+-BannerTop	网页最上部分，Big New
+-Footer		底部
+-Header		menu部分
+-Homes		首页
+-HomesData	首页数据
+-Logo		logo
+-My404		404页面
+-MyDashboard	客户后台左侧menu
+-NavSearch	menu下面的搜索框
+-NavTitle		menu下面的title
+-Pagination	页数等数据
