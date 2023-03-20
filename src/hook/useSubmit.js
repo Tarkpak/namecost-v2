@@ -6,19 +6,19 @@ import http from '@/utils/axios'
 export function useSubmit() {
   const [searchState, setSearchState] = useAtom(searchAtom)
 
-  const onSubmit = useCallback((url, data) => {
+  const onSubmit = useCallback((url, data, methods = 'get') => {
 
     setSearchState({
       ...searchState,
       isLoading: true,
     })
-    http
-      .get(url, { params: data })
+    http[methods](url, methods === 'get' ? { params: data } : data)
       .then((data) => {
+        const resultKey = Array.isArray(data) ? 'searchResult' : 'searchData'
         setSearchState({
           ...searchState,
           isLoading: false,
-          searchResult: data,
+          [resultKey]: data,
         })
       })
       .catch((error) => {
@@ -31,5 +31,5 @@ export function useSubmit() {
       })
   }, [searchState, setSearchState])
 
-  return {onSubmit, searchState, setSearchState}
+  return { onSubmit, searchState, setSearchState }
 }

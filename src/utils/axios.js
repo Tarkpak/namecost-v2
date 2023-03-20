@@ -2,6 +2,7 @@ import axios from 'axios'
 // import { render } from 'react-dom'
 import Message from '../components/alert/fail'
 import Toast from '@/components/alert'
+import { isArray } from 'util'
 
 
 const http = axios.create({
@@ -44,9 +45,8 @@ const responseSuccess = (response) => {
     }
     return Promise.reject(data.message)
   }
-  console.log('response.data?.data', response.data?.data);
   const [_, dataset] = Object.entries(response.data?.data)[0]
-  return Promise.resolve(dataset)
+  return Promise.resolve(Array.isArray(dataset) ? dataset : response.data.data)
 }
 
 const responseFailed = (error) => {

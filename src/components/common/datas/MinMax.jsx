@@ -1,9 +1,10 @@
 /* This example requires Tailwind CSS v2.0+ */
 
 import { TrendingUpIcon } from '@heroicons/react/solid'
+import { useFormContext } from 'react-hook-form'
 
-export  function MinMax({ children }) {
-
+export function MinMax({ children }) {
+  const {register } = useFormContext()
   return (
     <>
       <legend className="mb-2 block text-sm font-semibold text-gray-500">
@@ -11,9 +12,8 @@ export  function MinMax({ children }) {
           className="mr-2 h-4 w-4 text-gray-400"
           aria-hidden="true"
         />
-          { children }
+        {children}
       </legend>
-
 
       <div className="mt-2 flex justify-between space-x-4">
         <div className="flex">
@@ -23,6 +23,7 @@ export  function MinMax({ children }) {
             type="text"
             placeholder="Min"
             className="text-range-filter h-8 w-20  border-gray-300 text-xs"
+            {...register('min-character-length')}
           />
         </div>
         <div className="flex">
@@ -32,6 +33,7 @@ export  function MinMax({ children }) {
             type="text"
             placeholder="Max"
             className="text-range-filter h-8 w-20  border-gray-300 text-xs"
+            {...register('max-character-length')}
           />
         </div>
       </div>

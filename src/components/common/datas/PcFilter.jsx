@@ -2,7 +2,9 @@
 
 import { KeywordFilter } from '@/components/common/datas/KeywordFilter'
 import { MinMax } from '@/components/common/datas/MinMax'
-export function PcFilter({ filters }) {
+import { useFormContext } from 'react-hook-form'
+export const  PcFilter = ({ filters },ref) => {
+  const { register } = useFormContext()
   return (
 
     <>
@@ -28,7 +30,7 @@ export function PcFilter({ filters }) {
                 >
                   <input
                     id={`${section.id}-${optionIdx}`}
-                    name={`${section.id}[]`}
+                    name={section.id}
                     defaultValue={option.value}
                     type={section.myinput ? 'text' : 'checkbox'}
                     className={
@@ -36,6 +38,7 @@ export function PcFilter({ filters }) {
                         ? 'text-mygreen-500 h-6 max-w-max  border-gray-300 focus:outline-none focus:ring-0 focus:ring-white focus:ring-offset-0 focus:ring-offset-white'
                         : 'text-mygreen-500 h-4 w-4 rounded border-gray-300 focus:outline-none focus:ring-0 focus:ring-white focus:ring-offset-0 focus:ring-offset-white'
                     }
+                    {...register(section.id)}
                   />
                   <label
                     htmlFor={`${section.id}-${optionIdx}`}

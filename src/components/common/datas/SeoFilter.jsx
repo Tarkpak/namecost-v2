@@ -1,19 +1,14 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { LinkIcon } from '@heroicons/react/solid'
 import RangeSlider from '@/components/common/RangeSlider'
+import { useFormContext } from 'react-hook-form'
 
-
-export  function SeoFilter({
-  className,
-  ...props
-}) {
+export function SeoFilter({ className, ...props }) {
+  const {register} = useFormContext()
   return (
     <>
       <legend className="mb-1 block text-sm font-semibold text-gray-500">
-        <LinkIcon
-          className="mr-2 h-4 w-4 text-gray-400"
-          aria-hidden="true"
-        />
+        <LinkIcon className="mr-2 h-4 w-4 text-gray-400" aria-hidden="true" />
         SEO Filter
       </legend>
 
@@ -34,7 +29,8 @@ export  function SeoFilter({
             name="minbl"
             type="text"
             placeholder="Min BL"
-            className={className} {...props}
+            className={className}
+            {...props}
           />
         </div>
         <div className="flex">
@@ -43,11 +39,11 @@ export  function SeoFilter({
             name="minrd"
             type="text"
             placeholder="Min RD"
-            className={className} {...props}
+            className={className}
+            {...props}
           />
         </div>
       </div>
     </>
-   
   )
 }
