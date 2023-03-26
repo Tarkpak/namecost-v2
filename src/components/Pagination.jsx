@@ -12,15 +12,12 @@ export function Pagination({
   setPagination,
 }) {
   const isPrevDisabled = useMemo(
-    () => parseInt(pagination.page) === 1,
+    () => parseInt(pagination.page) <= 1,
     [pagination.page]
   )
-  const isNextDisabled = useMemo(
-    () => {
-      return parseInt(pagination.page) === end
-    },
-    [pagination.page, end]
-  )
+  const isNextDisabled = useMemo(() => {
+    return parseInt(pagination.page) === end
+  }, [pagination.page, end])
   return (
     <nav
       className="flex items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6"
@@ -44,7 +41,9 @@ export function Pagination({
         <a
           href="#"
           className={`relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 ${
-            isPrevDisabled ? 'cursor-not-allowed opacity-50' : ''
+            isPrevDisabled
+              ? 'pointer-events-none cursor-not-allowed opacity-50'
+              : ''
           }`}
           onClick={() => {
             const page = parseInt(pagination.page)
@@ -62,7 +61,9 @@ export function Pagination({
         <a
           href="#"
           className={`relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 ${
-            isNextDisabled ? 'cursor-not-allowed opacity-50' : ''
+            isNextDisabled
+              ? 'pointer-events-none cursor-not-allowed opacity-50'
+              : ''
           }`}
           onClick={() => {
             const page = parseInt(pagination.page)

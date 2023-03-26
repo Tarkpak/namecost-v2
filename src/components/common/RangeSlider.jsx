@@ -45,7 +45,7 @@ const RangeSlider = ({
     progressRef.current.style.left = (minValue / max) * step * 100 + '%'
     progressRef.current.style.right =
       (step - (maxValue / max) * step) * 100 + '%'
-    setValue('seo-filter', [minValue, maxValue].toString())
+    setValue('seo-filters', [minValue, maxValue].toString())
   }, [minValue, maxValue, max, step])
 
   return (

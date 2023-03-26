@@ -75,7 +75,7 @@ export function PendingDeleteDom() {
       'filter-domains': '',
       'min-character-length': '',
       'max-character-length': '',
-      'seo-filter': '0,100',
+      'seo-filters': '0,100',
       'keyword-type': 1,
       keyword: '',
       'tld-filters': 0,
@@ -84,12 +84,10 @@ export function PendingDeleteDom() {
 
   useEffect(() => {
     console.log('pagination', pagination)
-    methods.handleSubmit(handleSubmit)
+    const formData = methods.getValues()
+    handleSubmit(formData)
   }, [pagination])
 
-  const handleClick = () => {
-    methods.handleSubmit(handleSubmit)
-  }
   const { onSubmit, searchState } = useSubmit()
   const handleSubmit = (data) => {
     onSubmit(

@@ -5,6 +5,14 @@
 #__next {
   min-height: 100%;
 }
+.toast-wrapper {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 999;
+}
 .bg-mymain {
   background: #eff3f8;
   padding-top:1.5rem;

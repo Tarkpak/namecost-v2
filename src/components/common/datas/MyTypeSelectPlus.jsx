@@ -6,7 +6,7 @@ export function MyTypeSelectPlus({ infos ,chartRef }) {
 
     <>
       <div className="px-4 text-xs">
-      <span className="text-gray-300">{ infos }</span>
+        <span className="text-gray-300">{infos}</span>
       
       </div>        
       <div className="sm:px-4 pb-8 pt-4">
