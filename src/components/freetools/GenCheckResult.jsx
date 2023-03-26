@@ -50,7 +50,7 @@ const IsDatas = ({ datas }) => {
                 <a
                   href={
                     'https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=' +
-                    whois.name
+                    whois.domain
                   }
                   target="_blank"
                 >
