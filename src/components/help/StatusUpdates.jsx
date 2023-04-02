@@ -1,6 +1,9 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { CheckIcon, ThumbUpIcon, UserIcon } from '@heroicons/react/solid'
 import { ContentBanner } from '@/components/common/help/ContentBanner'
+import { useEffect, useState } from 'react'
+import http from '@/utils/axios'
+import dayjs from 'dayjs'
 const timeline = [
   {
     id: 1,
@@ -59,51 +62,69 @@ function classNames(...classes) {
 }
 
 export function StatusUpdates() {
+  const [list, setList] = useState([])
+  useEffect(() => {
+    http.get('/system/status-update').then((versions) => {
+      setList(versions)
+    })
+  }, [])
+
   return (
     <>
-      
-         <ContentBanner className="bg-maincolor pb-8" titles="NameCost Status" subtitles="namecost status" />
+      <ContentBanner
+        className="bg-maincolor pb-8"
+        titles="NameCost Status"
+        subtitles="namecost status"
+      />
 
       <div className="w-full  py-16">
-      <div className="flow-root mx-auto max-w-md px-4 sm:max-w-4xl sm:px-6 lg:max-w-5xl lg:px-8 py-16 bg-gray-50 py-8 rounded-lg  shadow-lg">
-      <ul role="list" className="-mb-8">
-        {timeline.map((event, eventIdx) => (
-          <li key={event.id}>
-            <div className="relative pb-8">
-              {eventIdx !== timeline.length - 1 ? (
-                <span className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true" />
-              ) : null}
-              <div className="relative flex space-x-3">
-                <div>
-                  <span
-                    className={classNames(
-                      event.iconBackground,
-                      'h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white'
-                    )}
-                  >
-                    <event.icon className="h-5 w-5 text-white" aria-hidden="true" />
-                  </span>
-                </div>
-                <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                  <div>
-                    <p className="text-sm text-gray-500">
-                      {event.content}{' '}
-                      <a href={event.href} className="font-medium text-gray-900">
-                        {event.target}
-                      </a>
-                    </p>
+        <div className="mx-auto flow-root max-w-md rounded-lg bg-gray-50 px-4 py-16 py-8 shadow-lg sm:max-w-4xl sm:px-6 lg:max-w-5xl  lg:px-8">
+          <ul role="list" className="-mb-8">
+            {list.map((event, eventIdx) => (
+              <li key={event.id}>
+                <div className="relative pb-8">
+                  {eventIdx !== timeline.length - 1 ? (
+                    <span
+                      className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
+                      aria-hidden="true"
+                    />
+                  ) : null}
+                  <div className="relative flex space-x-3">
+                    <div>
+                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-green-500 ring-8 ring-white">
+                        <CheckIcon
+                          className="h-5 w-5 text-white"
+                          aria-hidden="true"
+                        />
+                      </span>
+                    </div>
+                    <div className="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                      <div>
+                        <p className="text-sm text-gray-500">
+                          {event.content}
+                          <a
+                            href={event.href}
+                            className="font-medium text-gray-900"
+                          >
+                            {event.target}
+                          </a>
+                        </p>
+                      </div>
+                      <div className="whitespace-nowrap text-right text-sm text-gray-500">
+                        <time>
+                          {dayjs(event.updated_at).format(
+                            'YYYY-MM-DD hh:mm:ss'
+                          )}
+                        </time>
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-right text-sm whitespace-nowrap text-gray-500">
-                    <time dateTime={event.datetime}>{event.date}</time>
-                  </div>
                 </div>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-    </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </>
   )
 }

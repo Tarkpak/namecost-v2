@@ -32,8 +32,8 @@ const newclosing = {
   name: 'Closing Time',
   icon: <DatasFilterTime />,
   options: [
-    { value: 'Ending today', label: 'Yestoday' },
-    { value: 'Ending today', label: 'Within 1 week' },
+    { value: '0', label: 'Yestoday' },
+    { value: '1', label: 'Within 1 week' },
   ],
   myinput: false,
 }

@@ -6,19 +6,23 @@ import { ContactsTelegram } from '@/components/common/help/ContactsTelegram'
 import { ContactsTwitter } from '@/components/common/help/ContactsTwitter'
 import { ContactsContent } from '@/components/common/help/ContactsContent'
 import { ContactsEmail } from '@/components/common/help/ContactsEmail'
+
 export function Contacts() {
   return (
     <div className="">
-      <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8">
         <div className="relative bg-white shadow-xl">
           <h2 className="sr-only">Contact us</h2>
 
           <div className="grid grid-cols-1 lg:grid-cols-3">
             {/* Contact information */}
-            <div className="relative overflow-hidden py-10 px-6 bg-mygreen-300 sm:px-10 xl:p-12">
-              <div className="absolute inset-0 pointer-events-none sm:hidden" aria-hidden="true">
+            <div className="bg-mygreen-300 relative overflow-hidden py-10 px-6 sm:px-10 xl:p-12">
+              <div
+                className="pointer-events-none absolute inset-0 sm:hidden"
+                aria-hidden="true"
+              >
                 <svg
-                  className="absolute inset-0 w-full h-full"
+                  className="absolute inset-0 h-full w-full"
                   width={343}
                   height={388}
                   viewBox="0 0 343 388"
@@ -47,11 +51,11 @@ export function Contacts() {
                 </svg>
               </div>
               <div
-                className="hidden absolute top-0 right-0 bottom-0 w-1/2 pointer-events-none sm:block lg:hidden"
+                className="pointer-events-none absolute top-0 right-0 bottom-0 hidden w-1/2 sm:block lg:hidden"
                 aria-hidden="true"
               >
                 <svg
-                  className="absolute inset-0 w-full h-full"
+                  className="absolute inset-0 h-full w-full"
                   width={359}
                   height={339}
                   viewBox="0 0 359 339"
@@ -80,11 +84,11 @@ export function Contacts() {
                 </svg>
               </div>
               <div
-                className="hidden absolute top-0 right-0 bottom-0 w-1/2 pointer-events-none lg:block"
+                className="pointer-events-none absolute top-0 right-0 bottom-0 hidden w-1/2 lg:block"
                 aria-hidden="true"
               >
                 <svg
-                  className="absolute inset-0 w-full h-full"
+                  className="absolute inset-0 h-full w-full"
                   width={160}
                   height={678}
                   viewBox="0 0 160 678"
@@ -116,7 +120,7 @@ export function Contacts() {
               <ContactsEmail />
               <ul role="list" className="mt-8 flex space-x-12 text-center">
                 <li>
-                  < ContactsTelegram />
+                  <ContactsTelegram />
                 </li>
                 <li>
                   <ContactsTwitter />
@@ -126,10 +130,10 @@ export function Contacts() {
 
             {/* Contact form */}
             <div className="py-10 px-6 sm:px-10 lg:col-span-2 xl:p-12">
-              <h3 className="text-lg font-medium text-gray-900">Send us a message</h3>
-              <form action="#" method="POST" className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
-                <ContactsForm />
-              </form>
+              <h3 className="text-lg font-medium text-gray-900">
+                Send us a message
+              </h3>
+              <ContactsForm />
             </div>
           </div>
         </div>

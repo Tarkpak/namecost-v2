@@ -7,7 +7,20 @@ import { TextField } from '@/components/common/Fields'
 import { Logo } from '@/components/Logo'
 import { SendField } from '@/components/common/SendField'
 
+import http from '@/utils/axios'
+import { useForm, Controller } from 'react-hook-form'
+
 export default function Register() {
+  const { register, control, watch, trigger, handleSubmit } = useForm()
+
+  const email = watch('email')
+
+  const handleRegistry = (form) => {
+    http.post('/users/register', form).then((res) => {
+      location.href = '/login'
+    })
+  }
+
   return (
     <>
       <Head>
@@ -35,8 +48,7 @@ export default function Register() {
           </div>
         </div>
         <form
-          action=""
-          method="post"
+          onSubmit={handleSubmit(handleRegistry)}
           className="mt-10 grid grid-cols-1 gap-y-4 gap-x-6 sm:grid-cols-2"
         >
           <TextField
@@ -45,7 +57,7 @@ export default function Register() {
             name="first_name"
             type="text"
             autoComplete="given-name"
-            required
+            {...register('firstname', { required: true })}
           />
           <TextField
             label="Last name"
@@ -54,6 +66,7 @@ export default function Register() {
             type="text"
             autoComplete="family-name"
             required
+            {...register('lastname', { required: true })}
           />
           <TextField
             className="col-span-full"
@@ -62,7 +75,7 @@ export default function Register() {
             name="username"
             type="text"
             autoComplete="text"
-            required
+            {...register('username', { required: true })}
           />
           <TextField
             className="col-span-full"
@@ -71,9 +84,22 @@ export default function Register() {
             name="email"
             type="email"
             autoComplete="email"
-            required
+            {...register('email', { required: true })}
           />
-          <SendField />
+          <Controller
+            name="Activationkey"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <SendField
+                email={email}
+                trigger={trigger}
+                emailType="reg"
+                {...field}
+              />
+            )}
+          />
+          {/* <SendField email={form.email} emailType="reg" getCode={ getCode } /> */}
           <TextField
             className="col-span-full"
             label="Password"
@@ -81,7 +107,7 @@ export default function Register() {
             name="password"
             type="password"
             autoComplete="new-password"
-            required
+            {...register('password', { required: true })}
           />
           <TextField
             className="col-span-full"
@@ -90,7 +116,7 @@ export default function Register() {
             name="passwordverification"
             type="password"
             autoComplete="new-password"
-            required
+            {...register('repassword', { required: true })}
           />
 
           <div className="col-span-full">

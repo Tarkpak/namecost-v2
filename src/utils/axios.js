@@ -23,7 +23,7 @@ http.interceptors.request.use(beforeRequest)
 const responseSuccess = (response) => {
   // console.log('response', response.data);
   const data = response.data;
-  if ([-10014, -20010, -10013, -20012].includes(data.code) && data.message) {
+  if ([-10014, -20010, -10013, -20012, -60200].includes(data.code) && data.message) {
     // const container = document.createElement('div')
     // container.id = 'messageContainer'
     // container.style = `

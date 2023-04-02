@@ -45,7 +45,7 @@ export default function Login() {
             e.preventDefault()
             http
               .post('/users/login', form)
-              .then((token) => {
+              .then(({token}) => {
                 token && localStorage.setItem('token', token)
                 router.push('/')
               })
