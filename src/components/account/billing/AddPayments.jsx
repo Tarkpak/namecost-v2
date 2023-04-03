@@ -1,10 +1,13 @@
 /* This example requires Tailwind CSS v2.0+ */
+import http from '@/utils/axios'
 import { Disclosure } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/outline'
 import { PlusIcon } from '@heroicons/react/solid'
 import { useState } from 'react'
-import { SelectMonth } from '@/components/common/SelectMonth'
-import { SelectYear } from '@/components/common/SelectYear'
+
+
+const postUserPayment = (data) => http.post('/users/payments', data)
+
 const faqs = [
   {
     question: 'Add New Payment',
@@ -27,6 +30,29 @@ const paymentMethods = [
 ]
 
 const CreditCard = (props) => {
+  const [form, setForm] = useState({
+    payment_type: 1,
+    account: '',
+    card_number: '',
+    exp_year: '',
+    exp_month: '',
+    cvv: ''
+  })
+  const handleChange = e => {
+    const { name, value } = e.target
+    setForm({
+      ...form,
+      [name]: value
+    })
+    props.formChange({name, value})
+  }
+
+  const handlePost = () => {
+    postUserPayment(form).then(res => {
+      location.reload()
+    })
+  }
+
   return (
     <div className="mt-6 grid grid-cols-6 gap-y-6 gap-x-4">
       <div className="col-span-6 sm:col-span-3">
@@ -40,9 +66,11 @@ const CreditCard = (props) => {
           <input
             type="text"
             id="name-on-card"
-            name="name-on-card"
+            name="account"
             autoComplete="cc-name"
             className="focus:ring-mygreen-500 focus:border-mygreen-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+            value={form.account}
+            onInput={handleChange}
           />
         </div>
       </div>
@@ -58,9 +86,11 @@ const CreditCard = (props) => {
           <input
             type="text"
             id="card-number"
-            name="card-number"
+            name="card_number"
             autoComplete="cc-number"
             className="focus:ring-mygreen-500 focus:border-mygreen-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+            value={form.card_number}
+            onInput={handleChange}
           />
         </div>
       </div>
@@ -75,12 +105,26 @@ const CreditCard = (props) => {
         <div className="mt-1">
           <select
             id="expmonth"
-            name="expmonth"
+            name="exp_month"
             autoComplete="country-name"
             defaultValue="United States"
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            value={form.exp_month}
+            onInput={handleChange}
           >
-            <SelectMonth />
+            <option value=""></option>
+            <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
           </select>
         </div>
       </div>
@@ -95,12 +139,26 @@ const CreditCard = (props) => {
         <div className="mt-1">
           <select
             id="expmonth"
-            name="expmonth"
+            name="exp_year"
             autoComplete="country-name"
             defaultValue="United States"
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            value={form.exp_year}
+            onInput={handleChange}
           >
-            <SelectYear />
+            <option value=""></option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+            <option value="29">29</option>
+            <option value="30">30</option>
+            <option value="31">31</option>
+            <option value="32">32</option>
+            <option value="33">33</option>
           </select>
         </div>
       </div>
@@ -115,10 +173,12 @@ const CreditCard = (props) => {
         <div className="mt-1">
           <input
             type="text"
-            name="cvc"
+            name="cvv"
             id="cvc"
             autoComplete="csc"
             className="focus:ring-mygreen-500 focus:border-mygreen-500 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+            value={form.cvv}
+            onInput={handleChange}
           />
         </div>
       </div>
@@ -127,6 +187,7 @@ const CreditCard = (props) => {
         <button
           type="submit"
           className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700"
+          onClick={handlePost}
         >
           Add Credit Card
         </button>
@@ -165,6 +226,9 @@ function classNames(...classes) {
 
 export function AddPayments() {
   const [select, setSelect] = useState('credit-card')
+  const formChange = form => {
+    console.log(form)
+  }
   return (
     <div className="py-4">
       <div className="mx-auto max-w-7xl">
@@ -222,7 +286,7 @@ export function AddPayments() {
                             )}
                           </div>
                         </fieldset>
-                        {select === 'credit-card' && <CreditCard />}
+                        {select === 'credit-card' && <CreditCard formChange={ formChange  } />}
                         {select === 'paypal' && <Paypal />}
                         {select === 'crypto' && <Crypto />}
                       </div>

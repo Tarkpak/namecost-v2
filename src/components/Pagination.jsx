@@ -8,7 +8,7 @@ export function Pagination({
   num1,
   num2,
   num3,
-  pagination,
+  pagination = { page: 1 },
   setPagination,
 }) {
   const isPrevDisabled = useMemo(
